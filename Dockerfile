@@ -17,4 +17,4 @@ RUN ./mvnw clean package -DskipTests
 EXPOSE 8080
 
 # Ejecutar la app
-CMD ["java", "-jar", "target/*.jar"]
+CMD ["java", "-jar", "target/carta-amor-0.0.1-SNAPSHOT.jar"]
