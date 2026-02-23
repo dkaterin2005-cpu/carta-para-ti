@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Para ti 🤍</title>
+
+	<style>
+		:root {
+			--fondo: #f9f7f7;
+			--contenedor: #ffffff;
+			--texto: #333;
+			--boton: #d89aa2;
+		}
+
+		body.noche {
+			--fondo: #1f1f1f;
+			--contenedor: #2b2b2b;
+			--texto: #eee;
+			--boton: #8b5c63;
+		}
+
+		body {
+			background: var(--fondo);
+			font-family: Georgia, serif;
+			color: var(--texto);
+			transition: all 0.5s ease;
+		}
+
+		.contenedor {
+			max-width: 720px;
+			margin: 50px auto;
+			background: var(--contenedor);
+			padding: 35px;
+			border-radius: 12px;
+			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+			animation: aparecer 1s ease;
+		}
+
+		@keyframes aparecer {
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.boton {
+			display: block;
+			margin: 25px auto;
+			padding: 10px 25px;
+			border: none;
+			background: var(--boton);
+			color: white;
+			border-radius: 20px;
+			cursor: pointer;
+		}
+
+		.boton.latido {
+			animation: latido 1.4s infinite;
+		}
+
+		@keyframes latido {
+			0% {
+				transform: scale(1);
+			}
+
+			50% {
+				transform: scale(1.08);
+			}
+
+			100% {
+				transform: scale(1);
+			}
+		}
+
+		.oculto {
+			display: none;
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		#textoCarta {
+			line-height: 1.8;
+			white-space: pre-line;
+			margin-top: 20px;
+		}
+
+		.modo {
+			position: fixed;
+			top: 15px;
+			right: 15px;
+			cursor: pointer;
+		}
+
+		.login-sub {
+			text-align: center;
+			font-style: italic;
+			color: #777;
+			margin-bottom: 20px;
+		}
+
+		.input-wrapper {
+			position: relative;
+			width: 70%;
+			margin: 0 auto;
+		}
+
+		.input-wrapper input {
+			width: 100%;
+			padding: 10px 40px 10px 15px;
+			border-radius: 20px;
+			border: 1px solid #ccc;
+			outline: none;
+		}
+
+		.toggle {
+			position: absolute;
+			right: 15px;
+			top: 50%;
+			transform: translateY(-50%);
+			cursor: pointer;
+		}
+
+		.error {
+			text-align: center;
+			color: #b35a5a;
+			font-size: 13px;
+			margin-top: 10px;
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="modo" onclick="modoNoche()">🌙</div>
+
+	<!-- 🔐 LOGIN -->
+	<div id="login" class="contenedor">
+		<h1>Hay palabras que solo se dicen en silencio…</h1>
+		<p class="login-sub">Si estás aquí, es porque aún existimos.</p>
+
+		<div class="input-wrapper">
+			<input type="password" id="clave" placeholder="Una fecha que solo tú y yo sabemos">
+			<span class="toggle" onclick="verClave()">👁️</span>
+		</div>
+
+		<button class="boton" onclick="entrar()">Abrir mi corazón</button>
+
+		<div id="error" class="error">
+			No es la clave… pero sigue siendo para ti 🤍
+		</div>
+	</div>
+
+	<!-- 💌 CARTA -->
+	<div id="contenido" class="contenedor oculto">
+		<h1>Para ti 🤍</h1>
+
+		<div id="textoCarta"></div>
+
+		<button class="boton latido" onclick="activarSonido()">
+			Escuchar la canción 💗
+		</button>
+
+		<iframe id="player" width="100%" height="315" class="oculto"
+			src="https://www.youtube.com/embed/1XLX42ZKb1A?autoplay=1&mute=1" frameborder="0"
+			allow="autoplay; encrypted-media" allowfullscreen>
+		</iframe>
+	</div>
+
+	<script>
+		const CLAVE = "30/05/2022";
+		const LEIDA_KEY = "carta_leida";
+
+		const texto = `		Hola, mi niño,
+		Seguramente te preguntarás por qué sigo escribiéndote después de haber dicho que no lo haría. La verdad es que me cuesta demasiado dejar de hacerlo. Necesito saber cómo estás, aunque sé que a veces lo mejor es guardar silencio para no cometer la locura de irte a buscar de nuevo, para no molestarte y para aprender a vivir con tu ausencia.
+		Aceptar que ya no estarás a mi lado no es fácil. Soltarte y alejarme de un día para otro me duele, pero sé que si me aparto será la manera de aprender a estar sin ti, de acostumbrar mi corazón a tu ausencia. No significa que deje de amarte, porque eso jamás pasará. Significa que aprenderé a vivir sin ti, para que cuando volvamos a hablar no me sea tan duro.
+		Pero también debo confesarte que no quiero hacerlo, que mi corazón se resiste. Te amo con toda mi alma y, aunque le daré tiempo al tiempo, quiero demostrarte que he madurado, que sigo amándote y que intentaré conquistarte de nuevo. Sé que no será fácil ni rápido, pero te prometo que lo intentaré, siempre con respeto y sin forzar nada, porque lo único que deseo es verte feliz.
+		Como siempre te lo dije: te amaré eternamente. Contarás conmigo y con mi apoyo, aunque sea desde la distancia. Espero que cada vez que necesites algo me busques, porque ahí estaré para escucharte y acompañarte. Desde lejos, o si me lo permites desde cerca, seguiré viéndote crecer, cumplir tus sueños y celebrar cada uno de tus triunfos, porque verte feliz es mi mayor felicidad.
+		También deseo que encuentres a una buena mujer que te cuide, te valore, te respete y te ame de verdad, que te dé lo que siempre anhelaste. Te mereces lo mejor del mundo, porque vales mucho como persona y como hombre. Que no hablemos seguido o que no sepas de mí no significa que no esté pendiente de ti; si alguna vez necesitas algo, solo házmelo saber y estaré ahí, sin importar la distancia o el momento.
+		Solo me queda desearte lo mejor en tu vida. No te rindas, vas por buen camino. Nunca cambies, porque eres un hombre excelente. Te amo demasiado. Tal vez no fuiste la primera persona en mi vida, pero sí fuiste el primero en muchas cosas, y eso te convierte en el amor de mi vida.
+		Sé que con estas palabras no arreglaré nada ni retrocederé el tiempo, pero sentí que debía escribirlas. Perdón, siempre estaré arrepentida. Solo espero que algún día pueda volver a conquistarte y darte todo lo que en esta ocasión no pude. Sé que recuperar tu confianza y recuperarte a ti no será fácil, pero no me importa, porque mi mayor deseo sería volver a ver esos ojitos que tanto me enamoran y sentir ese calorcito que, con solo abrazarte, me hace sentir segura y en paz.
+		Sé que me contradigo, porque quiero verte feliz, aunque sea con alguien más, pero al mismo tiempo deseo que algún día me des otra oportunidad. Si ese momento llega y tú ya eres feliz con otra persona, me alejaré de una vez por todas para que lo seas, porque mi felicidad siempre ha sido verte sonreír, aunque sea desde la distancia.
+		Quiero que sepas que, aunque me aparte, siempre llevaré en mi corazón cada recuerdo contigo: tus palabras, tus gestos, tus abrazos. Nada de eso se borrará jamás. Y aunque la vida nos lleve por caminos distintos, mi amor por ti seguirá siendo eterno.
+		Si algún día la vida nos da otra oportunidad, prometo entregarte lo mejor de mí, sin miedos ni dudas. Y si no ocurre, me quedaré con la dicha de haberte amado de verdad, porque amar así solo se vive una vez.
+		Gracias por tu apoyo incondicional. Siempre estaré agradecida contigo y con Dios por haber puesto a alguien como tú en mi camino.
+		Eres y siempre serás el amor de mi vida. Esa persona única y especial que me marcó para siempre. No sabes cuánto me duele tenerte tan cerca y no poder abrazarte como deseo.
+		Yo no quiero momentos fugaces, yo deseo tenerte a mi lado para toda la vida. Sueño con que algún día podamos hacer realidad la familia que anhelamos, que tengan tus ojitos. Te ruego, te suplico, que vuelvas conmigo. No porque no me valore, sino porque reconozco que fui yo quien falló, y ahora quiero tenerte de nuevo a mi lado.
+		Como dijo Hache cuando le preguntaron por qué quería volver con ella: “Porque de los miles de amores que tendrás en la vida, solo hay uno bueno, que te marca y se te queda clavado tan fuerte, pero tan fuerte, que no hay manera de sacarlo”.
+		Y como dice la canción: “Pase lo que pase yo te esperaré, y nos sentaremos juntos frente al mar, y de tu mano volveré a caminar. Aunque se pase toda mi vida, yo te esperaré”.
+		Siento que me arrancaron un pedazo del alma. Si te vas, no queda nada… solo un corazón sin vida que, desde tu partida, se quedó gritando a media voz. La vida se me va porque no estoy contigo, la luna se apaga si no está tu cariño. 
+		No te vayas, no me dejes solita. No sé cómo seguir con tu ausencia. A veces siento que estoy bien, que todo pasará… pero no puedo, porque estás clavado en mi vida tan fuerte que no encuentro la manera de seguir sin ti.
+		Tu recuerdo me acompaña en cada instante, y aunque intento convencerme de que el dolor se irá, la verdad es que tu presencia vive en mí, tan intensa, tan profunda, que nada logra reemplazarla.
+		Eres ese amor que no se olvida, esa parte de mí que me sostiene y me derrumba al mismo tiempo. Sin ti, los días se vuelven más largos, las noches más frías, y mi corazón late con un vacío que no sé cómo llenar.
+		Por eso te pido, con toda mi alma: no me dejes, no me sueltes. Porque contigo aprendí lo que significa amar de verdad, y sin ti siento que la vida se me escapa
+		Esta carta no es una despedida, es la manera que tengo de acercarme a ti y de abrir mi corazón. Es la forma de decirte lo que he guardado en silencio durante todo este tiempo en que hemos estado separados. Me duele tu ausencia, me duele no verte ni tenerte cerca… y aunque sé que alejarme podría significar perderte para siempre, no quiero que eso ocurra. Lo único que deseo es volver a tenerte a mi lado, si tú me lo permites.
+		No sabes cuánto te he extrañado. Las noches se han vuelto interminables porque sin tu calor y tu presencia me falta la paz que siempre me dabas. El día que te volví a ver, cuando sentí tu corazón latir junto al mío, fue como volver a respirar después de mucho tiempo. Esa tranquilidad que me transmites es mi refugio, mi descanso, mi hogar.
+		Lo que más anhelo en esta vida es que regreses a mí, que vuelvas a enamorarte de mí como la primera vez. Estoy dispuesta a dar lo mejor de mí, a entregarme sin reservas, a conquistarte de nuevo con la misma ilusión y ternura que nos unió al inicio.
+		Sé que estas palabras son un torrente de emociones, tal vez demasiadas, pero no quiero guardarlas más. Mi amor por ti sigue intacto, y mi mayor sueño es que algún día podamos volver a escribir juntos nuestra historia, con más fuerza, con más verdad y con más amor.
+		“Te amo, y si la vida nos da otra oportunidad, prometo entregarte lo mejor de mí.”
+`;
+
+		let i = 0;
+		let escribiendo = false;
+
+		// 🔐 ENTRAR
+		function entrar() {
+			const claveIngresada = document.getElementById("clave").value;
+			const error = document.getElementById("error");
+
+			if (claveIngresada === CLAVE) {
+				error.style.display = "none";
+				mostrarCarta();
+			} else {
+				error.style.display = "block";
+			}
+		}
+
+		// 💌 MOSTRAR CARTA
+		function mostrarCarta() {
+			document.getElementById("login").style.display = "none";
+			document.getElementById("contenido").style.display = "block";
+
+			// Reiniciar texto y animación
+			i = 0;
+			escribiendo = true;
+			document.getElementById("textoCarta").innerHTML = "";
+			escribirTexto();
+		}
+
+		// ✍️ EFECTO ESCRITURA
+		function escribirTexto() {
+			if (!escribiendo) return;
+
+			if (i < texto.length) {
+				const char = texto.charAt(i);
+				document.getElementById("textoCarta").innerHTML += char;
+				i++;
+
+				let pausa = 35;
+				if (char === ",") pausa = 120;
+				if (char === ".") pausa = 300;
+				if (char === "\n") pausa = 600;
+
+				setTimeout(escribirTexto, pausa);
+			}
+		}
+
+		// 🎵 ACTIVAR SONIDO
+		function activarSonido() {
+			const iframe = document.getElementById("player");
+			iframe.classList.remove("oculto");
+			iframe.src = "https://www.youtube.com/embed/1XLX42ZKb1A?autoplay=1";
+		}
+
+		// 🌙 MODO NOCHE
+		function modoNoche() {
+			document.body.classList.toggle("noche");
+		}
+
+		// 👁️ VER CLAVE
+		function verClave() {
+			const input = document.getElementById("clave");
+			input.type = input.type === "password" ? "text" : "password";
+		}
+
+		// 🚫 NUNCA ENTRA AUTOMÁTICO
+		window.onload = () => {
+			document.getElementById("login").style.display = "block";
+			document.getElementById("contenido").style.display = "none";
+		};
+	</script>
+
+</body>
+
+</html>
